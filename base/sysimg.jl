@@ -50,6 +50,7 @@ let
             :TOML,
             :Artifacts,
             :Pkg,
+            :LazyArtifacts,
             :Test,
             :REPL,
             :Statistics,
