@@ -1,0 +1,16 @@
+diff --git llvm/lib/ExecutionEngine/RuntimeDyld/RuntimeDyld.cpp llvm/lib/ExecutionEngine/RuntimeDyld/RuntimeDyld.cpp
+index 7e9b0690cce..3ddf9de51c5 100644
+--- llvm/lib/ExecutionEngine/RuntimeDyld/RuntimeDyld.cpp
++++ llvm/lib/ExecutionEngine/RuntimeDyld/RuntimeDyld.cpp
+@@ -1234,7 +1234,9 @@ void RuntimeDyldImpl::finalizeAsync(
+ 
+   for (auto &RelocKV : SharedThis->ExternalSymbolRelocations) {
+     StringRef Name = RelocKV.first();
+-    assert(!Name.empty() && "Symbol has no name?");
++    if (Name.empty())
++      // This is an absolute symbol
++      continue;
+     assert(!SharedThis->GlobalSymbolTable.count(Name) &&
+            "Name already processed. RuntimeDyld instances can not be re-used "
+            "when finalizing with finalizeAsync.");
+
