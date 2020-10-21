@@ -53,6 +53,7 @@ let
             :Test,
             :REPL,
             :Statistics,
+            :GMP_jll,
             :MozillaCACerts_jll,
             :LibCURL_jll,
             :LibCURL,

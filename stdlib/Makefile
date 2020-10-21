@@ -18,7 +18,17 @@ STDLIBS = Artifacts Base64 CRC32c Dates DelimitedFiles Distributed FileWatching 
           Future InteractiveUtils Libdl LibGit2 LinearAlgebra Logging \
           Markdown Mmap Printf Profile Random REPL Serialization SHA \
           SharedArrays Sockets SparseArrays SuiteSparse Test TOML Unicode UUIDs \
-          MozillaCACerts_jll LibCURL_jll
+          dSFMT_jll GMP_jll LibCURL_jll LibGit2_jll libLLVM_jll LibSSH2_jll LibUV_jll \
+          MbedTLS_jll MozillaCACerts_jll MPFR_jll nghttp2_jll OpenBLAS_jll \
+          OpenLibm_jll p7zip_jll PCRE2_jll SuiteSparse_jll Zlib_jll
+
+ifeq ($(OS),Darwin)
+STDLIBS += LibOSXUnwind_jll
+endif
+
+ifneq (,$(filter $(OS), Linux FreeBSD))
+STDLIBS += LibUnwind_jll
+endif
 
 STDLIBS_EXT = Pkg Statistics LibCURL Downloads ArgTools Tar NetworkOptions
 PKG_GIT_URL := git://github.com/JuliaLang/Pkg.jl.git
