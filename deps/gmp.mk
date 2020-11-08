@@ -72,8 +72,5 @@ check-gmp: $(BUILDDIR)/gmp-$(GMP_VER)/build-checked
 
 else # USE_BINARYBUILDER_GMP
 
-GMP_BB_URL_BASE := https://github.com/JuliaBinaryWrappers/GMP_jll.jl/releases/download/GMP-v$(GMP_VER)+$(GMP_BB_REL)
-GMP_BB_NAME := GMP.v$(GMP_VER)
-
 $(eval $(call bb-install,gmp,GMP,false,true))
 endif
