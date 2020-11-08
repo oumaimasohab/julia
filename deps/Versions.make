@@ -36,10 +36,10 @@ LIBUV_JLL_NAME := LibUV
 
 # LLVM
 LLVM_VER := 11.0.0
-ifneq ($(BINARYBUILDER_LLVM_ASSERTS), 1)
-LLVM_JLL_NAME := LLVM_full
-else
-LLVM_JLL_NAME := LLVM_full_assert
+LLVM_JLL_NAME := libLLVM
+# We provide a way to subversively swap out which LLVM JLL we pull artifacts from
+ifeq ($(BINARYBUILDER_LLVM_ASSERTS), 1)
+LLVM_DOWNLOAD_JLL_NAME := libLLVM_assert
 endif
 
 # MbedTLS

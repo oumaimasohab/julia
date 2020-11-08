@@ -32,11 +32,17 @@ endif
 
 # Look for JLL version within Project.toml in stdlib/
 $(2)_STDLIB_PATH := $(JULIAHOME)/stdlib/$$($(2)_JLL_NAME)_jll
-$(2)_JLL_VER ?= $$(shell [ -f $$($(2)_STDLIB_PATH)/Project.toml ] && grep "^version" $$($(2)_STDLIB_PATH)/Project.toml | sed -E 's/version\s*=\s*"?(.*)"?/\1/')
+
+# If the file doesn't exist (e.g. we're downloading a JLL release for something
+# that we don't actually ship) silently continue despite the Project.toml file missing.
+$(2)_JLL_VER ?= $$(shell [ -f $$($(2)_STDLIB_PATH)/Project.toml ] && grep "^version" $$($(2)_STDLIB_PATH)/Project.toml | sed -E 's/version\s*=\s*"?([^"]+)"?/\1/')
 
 $(2)_BB_TRIPLET := $$($$(TRIPLET_VAR))
 $(2)_JLL_VER_NOPLUS := $$(firstword $$(subst +,$(SPACE),$$($(2)_JLL_VER)))
 $(2)_JLL_BASENAME := $$($(2)_JLL_NAME).v$$($(2)_JLL_VER).$$($(2)_BB_TRIPLET).tar.gz
+
+# Allow things to override which JLL we pull from, e.g. libLLVM_jll vs. libLLVM_assert_jll
+$(2)_JLL_DOWNLOAD_NAME ?= $$($(2)_JLL_NAME)
 $(2)_BB_URL := https://github.com/JuliaBinaryWrappers/$$($(2)_JLL_NAME)_jll.jl/releases/download/$$($(2)_JLL_NAME)-v$$($(2)_JLL_VER)/$$($(2)_JLL_NAME).v$$($(2)_JLL_VER_NOPLUS).$$($(2)_BB_TRIPLET).tar.gz
 
 $$(SRCCACHE)/$$($(2)_JLL_BASENAME): | $$(SRCCACHE)
