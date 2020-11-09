@@ -27,7 +27,10 @@ ifeq ($(3),true)
 TRIPLET_VAR := $$(TRIPLET_VAR)_LIBGFORTRAN
 endif
 ifeq ($(4),true)
+# Darwin and FreeBSD use `clang` instead of `gcc`, so they don't have a cxx11 string ABI break
+ifeq (,$(filter $(OS),Darwin FreeBSD))
 TRIPLET_VAR := $$(TRIPLET_VAR)_CXXABI
+endif
 endif
 
 # Look for JLL version within Project.toml in stdlib/
@@ -35,7 +38,7 @@ $(2)_STDLIB_PATH := $(JULIAHOME)/stdlib/$$($(2)_JLL_NAME)_jll
 
 # If the file doesn't exist (e.g. we're downloading a JLL release for something
 # that we don't actually ship) silently continue despite the Project.toml file missing.
-$(2)_JLL_VER ?= $$(shell [ -f $$($(2)_STDLIB_PATH)/Project.toml ] && grep "^version" $$($(2)_STDLIB_PATH)/Project.toml | sed -E 's/version\s*=\s*"?([^"]+)"?/\1/')
+$(2)_JLL_VER ?= $$(shell [ -f $$($(2)_STDLIB_PATH)/Project.toml ] && grep "^version" $$($(2)_STDLIB_PATH)/Project.toml | sed -E 's/version[[:space:]]*=[[:space:]]*"?([^"]+)"?/\1/')
 
 $(2)_BB_TRIPLET := $$($$(TRIPLET_VAR))
 $(2)_JLL_VER_NOPLUS := $$(firstword $$(subst +,$(SPACE),$$($(2)_JLL_VER)))
