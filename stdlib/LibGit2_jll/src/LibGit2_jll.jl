@@ -19,9 +19,9 @@ libgit2_path = ""
 if Sys.iswindows()
     const libgit2 = "libgit2.dll"
 elseif Sys.isapple()
-    const libgit2 = "libgit2.1.dylib"
+    const libgit2 = "libgit2.1.1.dylib"
 else
-    const libgit2 = "libgit2.so.1"
+    const libgit2 = "libgit2.so.1.1"
 end
 
 function __init__()
