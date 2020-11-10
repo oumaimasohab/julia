@@ -3,5 +3,7 @@
 using Test, Libdl, LibOSXUnwind_jll
 
 @testset "LibOSXUnwind_jll" begin
-    
+    @static if Sys.isapple()
+        @test dlsym(LibOSXUnwind_jll.libosxunwind_handle, :__Unwind_Backtrace; throw_error=false) !== nothing
+    end
 end
