@@ -1,8 +1,8 @@
 # This file is a part of Julia. License is MIT: https://julialang.org/license
 
-## dummy stub for https://github.com/JuliaBinaryWrappers/LibMbedTLS_jll.jl
+## dummy stub for https://github.com/JuliaBinaryWrappers/MbedTLS_jll.jl
 
-module LibMbedTLS_jll
+module MbedTLS_jll
 
 using Libdl
 
@@ -42,4 +42,4 @@ function __init__()
     global libmbedx509_path = dlpath(libmbedx509_handle)
 end
 
-end  # module LibMbedTLS_jll
+end  # module MbedTLS_jll

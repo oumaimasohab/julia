@@ -16,15 +16,8 @@ $(build_datarootdir)/julia/stdlib/$(VERSDIR):
 
 JLLS = dSFMT_jll GMP_jll LibCURL_jll LibGit2_jll libLLVM_jll LibSSH2_jll \
        LibUV_jll MbedTLS_jll MozillaCACerts_jll MPFR_jll nghttp2_jll \
-       OpenBLAS_jll OpenLibm_jll p7zip_jll PCRE2_jll SuiteSparse_jll Zlib_jll
-
-ifeq ($(OS),Darwin)
-JLLS += LibOSXUnwind_jll
-endif
-
-ifneq (,$(filter $(OS), Linux FreeBSD))
-JLLS += LibUnwind_jll
-endif
+       OpenBLAS_jll OpenLibm_jll p7zip_jll PCRE2_jll SuiteSparse_jll Zlib_jll \
+       LibOSXUnwind_jll LibUnwind_jll
 
 # Define rule to download `Artifacts.toml` file for each JLL we bundle.
 define download-artifacts-toml
