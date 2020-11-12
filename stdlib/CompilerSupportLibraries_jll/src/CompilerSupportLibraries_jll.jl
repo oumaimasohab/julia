@@ -35,7 +35,7 @@ elseif Sys.isapple()
         const libgcc_s = "@rpath/libgcc_s.1.dylib"
     end 
     const libgfortran = string("@rpath/", "libgfortran.", libgfortran_version(HostPlatform()).major, ".dylib")
-    const libstdcxx = "@rpath/libstdcxx.6.dylib"
+    const libstdcxx = "@rpath/libstdc++.6.dylib"
     const libgomp = "@rpath/libgomp.1.dylib"
 else
     const libgcc_s = "libgcc_s.so.1"
