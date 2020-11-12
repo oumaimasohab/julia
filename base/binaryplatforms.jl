@@ -929,25 +929,33 @@ detect compiler ABI values such as `libgfortran_version`, `libstdcxx_version` an
 we have much of that built.
 """
 function host_triplet()
-    str = Sys.MACHINE
-    libgfortran_version = detect_libgfortran_version()
-    if libgfortran_version !== nothing
-        str = string(str, "-libgfortran", libgfortran_version.major)
+    str = Base.BUILD_TRIPLET
+
+    if !occursin("-libgfortran", str)
+        libgfortran_version = detect_libgfortran_version()
+        if libgfortran_version !== nothing
+            str = string(str, "-libgfortran", libgfortran_version.major)
+        end
     end
 
-    libstdcxx_version = detect_libstdcxx_version()
-    if libstdcxx_version !== nothing
-        str = string(str, "-libstdcxx", libstdcxx_version.patch)
+    if !occursin("-libstdcxx", str)
+        libstdcxx_version = detect_libstdcxx_version()
+        if libstdcxx_version !== nothing
+            str = string(str, "-libstdcxx", libstdcxx_version.patch)
+        end
     end
 
-    cxxstring_abi = detect_cxxstring_abi()
-    if cxxstring_abi !== nothing
-        str = string(str, "-", cxxstring_abi)
+    if !occursin("-cxx", str)
+        cxxstring_abi = detect_cxxstring_abi()
+        if cxxstring_abi !== nothing
+            str = string(str, "-", cxxstring_abi)
+        end
     end
 
     # Add on julia_version extended tag
-    str = string(str, "-julia_version+", VersionNumber(VERSION.major, VERSION.minor, VERSION.patch))
-
+    if !occursin("-julia_version+", str)
+        str = string(str, "-julia_version+", VersionNumber(VERSION.major, VERSION.minor, VERSION.patch))
+    end
     return str
 end
 

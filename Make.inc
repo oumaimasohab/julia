@@ -94,6 +94,15 @@ WITH_GC_DEBUG_ENV := 0
 # Prevent picking up $ARCH from the environment variables
 ARCH:=
 
+
+# Literal values that are hard to use in Makefiles otherwise:
+define newline # a literal \n
+
+
+endef
+COMMA:=,
+SPACE:=$(eval) $(eval)
+
 # We need python for things like BB triplet recognition and relative path computation.
 # We don't really care about version, generally, so just find something that works:
 PYTHON := "$(shell which python 2>/dev/null || which python3 2>/dev/null || which python2 2>/dev/null || echo "{python|python3|python2} not found")"
@@ -1130,6 +1139,12 @@ endif
 USE_BINARYBUILDER ?= 0
 endif
 
+# Auto-detect triplet once, create different versions that we use as defaults below for each BB install target
+BB_TRIPLET_LIBGFORTRAN_CXXABI := $(shell $(call invoke_python,$(JULIAHOME)/contrib/normalize_triplet.py) $(or $(XC_HOST),$(XC_HOST),$(BUILD_MACHINE)) "$(shell $(FC) --version | head -1)" "$(or $(shell echo '\#include <string>' | $(CXX) $(CXXFLAGS) -x c++ -dM -E - | grep _GLIBCXX_USE_CXX11_ABI | awk '{ print $$3 }' ),1)")
+BB_TRIPLET_LIBGFORTRAN := $(subst $(SPACE),-,$(filter-out cxx%,$(subst -,$(SPACE),$(BB_TRIPLET_LIBGFORTRAN_CXXABI))))
+BB_TRIPLET_CXXABI := $(subst $(SPACE),-,$(filter-out libgfortran%,$(subst -,$(SPACE),$(BB_TRIPLET_LIBGFORTRAN_CXXABI))))
+BB_TRIPLET := $(subst $(SPACE),-,$(filter-out cxx%,$(filter-out libgfortran%,$(subst -,$(SPACE),$(BB_TRIPLET_LIBGFORTRAN_CXXABI)))))
+
 # This is the set of projects that BinaryBuilder dependencies are hooked up for.
 BB_PROJECTS := OPENBLAS LLVM SUITESPARSE OPENLIBM GMP MBEDTLS LIBSSH2 NGHTTP2 MPFR CURL LIBGIT2 PCRE LIBUV LIBUNWIND DSFMT OBJCONV ZLIB P7ZIP CSL
 define SET_BB_DEFAULT
@@ -1577,18 +1592,8 @@ PRINT_FLISP = echo '$(subst ','\'',$(1))'; $(1)
 PRINT_JULIA = echo '$(subst ','\'',$(1))'; $(1)
 
 endif
-
-define newline # a literal \n
-
-
-endef
-
 # Makefile debugging trick:
 # call print-VARIABLE to see the runtime value of any variable
 # (hardened against any special characters appearing in the output)
 print-%:
 	@echo '$*=$(subst ','\'',$(subst $(newline),\n,$($*)))'
-
-# Literal values that are hard to use in Makefiles otherwise:
-COMMA:=,
-SPACE:=$(eval) $(eval)
