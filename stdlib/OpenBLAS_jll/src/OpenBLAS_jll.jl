@@ -3,7 +3,7 @@
 ## dummy stub for https://github.com/JuliaBinaryWrappers/OpenBLAS_jll.jl
 module OpenBLAS_jll
 
-using Libdl
+using Libdl, CompilerSupportLibraries_jll
 
 const PATH_list = String[]
 const LIBPATH_list = String[]

@@ -8,14 +8,12 @@ using Libdl, OpenBLAS_jll
 const PATH_list = String[]
 const LIBPATH_list = String[]
 
-export libamd, libbtf, libcamd, libccolamd, libcholmod, libcolamd, libklu, libldl, librbio, libspqr, libsuitesparse_wrapper, libsuitesparseconfig, libumfpack
+export libamd, libcamd, libccolamd, libcholmod, libcolamd, libspqr, libsuitesparse_wrapper, libsuitesparseconfig, libumfpack
 
 # These get calculated in __init__()
 # Man I can't wait until these are automatically handled by an in-Base JLLWrappers clone.
 libamd_handle = C_NULL
 libamd_path = ""
-libbtf_handle = C_NULL
-libbtf_path = ""
 libcamd_handle = C_NULL
 libcamd_path = ""
 libccolamd_handle = C_NULL
@@ -24,12 +22,6 @@ libcholmod_handle = C_NULL
 libcholmod_path = ""
 libcolamd_handle = C_NULL
 libcolamd_path = ""
-libklu_handle = C_NULL
-libklu_path = ""
-libldl_handle = C_NULL
-libldl_path = ""
-librbio_handle = C_NULL
-librbio_path = ""
 libspqr_handle = C_NULL
 libspqr_path = ""
 libsuitesparse_wrapper_handle = C_NULL
@@ -41,42 +33,30 @@ libumfpack_path = ""
 
 if Sys.iswindows()
     const libamd = "libamd.dll"
-    const libbtf = "libbtf.dll"
     const libcamd = "libcamd.dll"
     const libccolamd = "libccolamd.dll"
     const libcholmod = "libcholmod.dll"
     const libcolamd = "libcolamd.dll"
-    const libklu = "libklu.dll"
-    const libldl = "libldl.dll"
-    const librbio = "librbio.dll"
     const libspqr = "libspqr.dll"
     const libsuitesparse_wrapper = "libsuitesparse_wrapper.dll"
     const libsuitesparseconfig = "libsuitesparseconfig.dll"
     const libumfpack = "libumfpack.dll"
 elseif Sys.isapple()
     const libamd = "@rpath/libamd.2.dylib"
-    const libbtf = "@rpath/libbtf.1.dylib"
     const libcamd = "@rpath/libcamd.2.dylib"
     const libccolamd = "@rpath/libccolamd.2.dylib"
     const libcholmod = "@rpath/libcholmod.3.dylib"
     const libcolamd = "@rpath/libcolamd.2.dylib"
-    const libklu = "@rpath/libklu.1.dylib"
-    const libldl = "@rpath/libldl.2.dylib"
-    const librbio = "@rpath/librbio.2.dylib"
     const libspqr = "@rpath/libspqr.2.dylib"
     const libsuitesparse_wrapper = "@rpath/libsuitesparse_wrapper.dylib"
     const libsuitesparseconfig = "@rpath/libsuitesparseconfig.5.dylib"
     const libumfpack = "@rpath/libumfpack.5.dylib"
 else
     const libamd = "libamd.so.2"
-    const libbtf = "libbtf.so.1"
     const libcamd = "libcamd.so.2"
     const libccolamd = "libccolamd.so.2"
     const libcholmod = "libcholmod.so.3"
     const libcolamd = "libcolamd.so.2"
-    const libklu = "libklu.so.1"
-    const libldl = "libldl.so.2"
-    const librbio = "librbio.so.2"
     const libspqr = "libspqr.so.2"
     const libsuitesparse_wrapper = "libsuitesparse_wrapper.so"
     const libsuitesparseconfig = "libsuitesparseconfig.so.5"
@@ -86,8 +66,6 @@ end
 function __init__()
     global libamd_handle = dlopen(libamd)
     global libamd_path = dlpath(libamd_handle)
-    global libbtf_handle = dlopen(libbtf)
-    global libbtf_path = dlpath(libbtf_handle)
     global libcamd_handle = dlopen(libcamd)
     global libcamd_path = dlpath(libcamd_handle)
     global libccolamd_handle = dlopen(libccolamd)
@@ -96,12 +74,6 @@ function __init__()
     global libcholmod_path = dlpath(libcholmod_handle)
     global libcolamd_handle = dlopen(libcolamd)
     global libcolamd_path = dlpath(libcolamd_handle)
-    global libklu_handle = dlopen(libklu)
-    global libklu_path = dlpath(libklu_handle)
-    global libldl_handle = dlopen(libldl)
-    global libldl_path = dlpath(libldl_handle)
-    global librbio_handle = dlopen(librbio)
-    global librbio_path = dlpath(librbio_handle)
     global libspqr_handle = dlopen(libspqr)
     global libspqr_path = dlpath(libspqr_handle)
     global libsuitesparse_wrapper_handle = dlopen(libsuitesparse_wrapper)

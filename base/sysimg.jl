@@ -53,6 +53,7 @@ let
             :Test,
             :REPL,
             :Statistics,
+            :CompilerSupportLibraries_jll,
             :Zlib_jll,
             :p7zip_jll,
             :dSFMT_jll,

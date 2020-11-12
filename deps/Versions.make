@@ -10,6 +10,9 @@
 # represents the upstream source version; the JLL binary version that gets downloaded is
 # controlled by the `Project.toml` files in `stdlib/XXX_jll/`.
 
+# Compiler Support Libraries
+CSL_JLL_NAME := CompilerSupportLibraries
+
 # DSFMT
 DSFMT_VER := 2.2.3
 DSFMT_JLL_NAME := dSFMT
