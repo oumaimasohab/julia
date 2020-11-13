@@ -13,6 +13,10 @@
 # Compiler Support Libraries
 CSL_JLL_NAME := CompilerSupportLibraries
 
+# Clang (paired with LLVM, only here as a JLL download)
+CLANG_JLL_NAME := Clang
+CLANG_JLL_VER  := 11.0.0+0
+
 # DSFMT
 DSFMT_VER := 2.2.3
 DSFMT_JLL_NAME := dSFMT
