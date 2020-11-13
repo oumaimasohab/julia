@@ -19,11 +19,11 @@ JLLS = dSFMT_jll GMP_jll LibCURL_jll LibGit2_jll libLLVM_jll LibSSH2_jll \
        OpenBLAS_jll OpenLibm_jll p7zip_jll PCRE2_jll SuiteSparse_jll Zlib_jll \
        LibOSXUnwind_jll LibUnwind_jll CompilerSupportLibraries_jll
 
-# Define rule to download `Artifacts.toml` file for each JLL we bundle.
+# Define rule to download `StdlibArtifacts.toml` files for each JLL we bundle.
 define download-artifacts-toml
-$$(JULIAHOME)/stdlib/$(1)/Artifacts.toml:
+$$(JULIAHOME)/stdlib/$(1)/StdlibArtifacts.toml:
 	$(JLDOWNLOAD) $$@ https://github.com/JuliaBinaryWrappers/$(1).jl/raw/main/Artifacts.toml
-get-$(1): $$(JULIAHOME)/stdlib/$(1)/Artifacts.toml
+get-$(1): $$(JULIAHOME)/stdlib/$(1)/StdlibArtifacts.toml
 endef
 $(foreach jll,$(JLLS),$(eval $(call download-artifacts-toml,$(jll))))
 

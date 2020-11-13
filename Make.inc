@@ -1009,19 +1009,25 @@ ifeq ($(USE_SYSTEM_LLVM), 1)
 JCPPFLAGS+=-DSYSTEM_LLVM
 endif # SYSTEM_LLVM
 
+# Windows builds need a little help finding the LLVM libraries for llvm-config
+LLVM_CONFIG_PATH_FIX :=
+ifeq ($(OS),WINNT)
+LLVM_CONFIG_PATH_FIX := PATH="$(PATH):$(build_bindir)"
+endif
+
 ifeq ($(BUILD_OS),$(OS))
 LLVM_CONFIG_HOST := $(LLVM_CONFIG)
 else
 LLVM_CONFIG_HOST := $(basename $(LLVM_CONFIG))-host$(BUILD_EXE)
 ifeq (exists, $(shell [ -f '$(LLVM_CONFIG_HOST)' ] && echo exists ))
-ifeq ($(shell $(LLVM_CONFIG_HOST) --version),3.3)
+ifeq ($(shell $(LLVM_CONFIG_PATH_FIX) $(LLVM_CONFIG_HOST) --version),3.3)
 # llvm-config-host <= 3.3 is broken, use llvm-config instead (in an emulator)
 # use delayed expansion (= not :=) because spawn isn't defined until later
-LLVM_CONFIG_HOST = $(call spawn,$(LLVM_CONFIG))
+LLVM_CONFIG_HOST = $(LLVM_CONFIG_PATH_FIX) $(call spawn,$(LLVM_CONFIG))
 endif
 else
 # llvm-config-host does not exist (cmake build)
-LLVM_CONFIG_HOST = $(call spawn,$(LLVM_CONFIG))
+LLVM_CONFIG_HOST = $(LLVM_CONFIG_PATH_FIX) $(call spawn,$(LLVM_CONFIG))
 endif
 endif
 

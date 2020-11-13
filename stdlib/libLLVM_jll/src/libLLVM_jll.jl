@@ -16,7 +16,7 @@ libLLVM_handle = C_NULL
 libLLVM_path = ""
 
 if Sys.iswindows()
-    const libLLVM = "libLLVM.dll"
+    const libLLVM = "LLVM.dll"
 elseif Sys.isapple()
     const libLLVM = "libLLVM.dylib"
 else

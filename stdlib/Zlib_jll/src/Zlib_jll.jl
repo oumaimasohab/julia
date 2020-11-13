@@ -15,7 +15,7 @@ libz_handle = C_NULL
 libz_path = ""
 
 if Sys.iswindows()
-    const libz = "libz-1.dll"
+    const libz = "libz.dll"
 elseif Sys.isapple()
     const libz = "@rpath/libz.1.dylib"
 else
