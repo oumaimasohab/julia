@@ -602,5 +602,6 @@ else # USE_BINARYBUILDER_LLVM
 
 $(eval $(call bb-install,llvm,LLVM,false,true))
 $(eval $(call bb-install,clang,CLANG,false,true))
+$(eval $(call bb-install,llvm-tools,LLVM_TOOLS,false,true))
 
 endif # USE_BINARYBUILDER_LLVM
