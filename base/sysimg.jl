@@ -40,19 +40,14 @@ let
         # 1-depth packages
         :CompilerSupportLibraries_jll,
         :DelimitedFiles,
-        :Distributed,
         :GMP_jll,
         :LibCURL_jll,
-        :LibGit2_jll,
         :LibOSXUnwind_jll,
-        :LibSSH2_jll,
         :LibUV_jll,
         :LibUnwind_jll,
         :LinearAlgebra,
-        :MPFR_jll,
         :Markdown,
         :MbedTLS_jll,
-        :OpenBLAS_jll,
         :OpenLibm_jll,
         :PCRE2_jll,
         :Printf,
@@ -66,24 +61,31 @@ let
 
         # 2-depth packages
         :Dates,
+        :Distributed,
         :Future,
         :InteractiveUtils,
         :LibCURL,
         :LibGit2,
+        :LibSSH2_jll,
+        :MPFR_jll,
+        :OpenBLAS_jll,
         :Profile,
-        :REPL,
-        :SharedArrays,
         :SparseArrays,
-        :SuiteSparse,
-        :SuiteSparse_jll,
         :UUIDs,
 
         # 3-depth packages
         :Downloads,
-        :Pkg,
+        :LibGit2_jll,
+        :REPL,
+        :SharedArrays,
         :Statistics,
+        :SuiteSparse,
+        :SuiteSparse_jll,
         :TOML,
         :Test,
+
+        # 4-depth packages
+        :Pkg,
     ]
 
     maxlen = reduce(max, textwidth.(string.(stdlibs)); init=0)
