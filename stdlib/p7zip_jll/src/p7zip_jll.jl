@@ -21,7 +21,13 @@ p7zip(f::Function; adjust_PATH::Bool = true, adjust_LIBPATH::Bool = true) = f(p7
 p7zip(; adjust_PATH::Bool = true, adjust_LIBPATH::Bool = true) = Cmd([p7zip_path])
 
 function __init__()
-    global p7zip_path = abspath(joinpath(Sys.BINDIR, Base.LIBEXECDIR, p7zip_exe))
+    # Prefer our own bundled p7zip, but if we don't have one, pick it up off of the PATH
+    bundled_p7zip_path = joinpath(Sys.BINDIR, Base.LIBEXECDIR, p7zip_exe)
+    if isfile(bundled_p7zip_path)
+        global p7zip_path = abspath(bundled_p7zip_path)
+    else
+        global p7zip_path = Sys.which(p7zip_exe)
+    end
 end
 
 end  # module p7zip_jll
