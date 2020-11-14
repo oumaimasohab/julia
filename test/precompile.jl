@@ -290,13 +290,18 @@ try
             Dict(let m = Base.root_module(Base, s)
                      Base.PkgId(m) => Base.module_build_id(m)
                  end for s in
-                [:Artifacts, :Base64, :CRC32c, :Dates, :DelimitedFiles, :Distributed, :FileWatching, :Markdown,
-                 :Future, :Libdl, :LinearAlgebra, :Logging, :Mmap, :Printf,
-                 :Profile, :Random, :Serialization, :SharedArrays, :SparseArrays, :SuiteSparse, :Test,
-                 :Unicode, :REPL, :InteractiveUtils, :Pkg, :LibGit2, :SHA, :UUIDs, :Sockets,
-                 :Statistics, :TOML, :MozillaCACerts_jll, :LibCURL_jll, :LibCURL, :Downloads,
-                 :ArgTools, :Tar, :NetworkOptions,]),
-           )
+                [:ArgTools, :Artifacts, :Base64, :CRC32c, :CompilerSupportLibraries_jll,
+                 :Dates, :DelimitedFiles, :Distributed, :Downloads, :FileWatching, :Future,
+                 :GMP_jll, :InteractiveUtils, :LibCURL, :LibCURL_jll, :LibGit2, :LibGit2_jll,
+                 :LibOSXUnwind_jll, :LibSSH2_jll, :LibUV_jll, :LibUnwind_jll, :Libdl, :LinearAlgebra,
+                 :Logging, :MPFR_jll, :Markdown, :MbedTLS_jll, :Mmap, :MozillaCACerts_jll,
+                 :NetworkOptions, :OpenBLAS_jll, :OpenLibm_jll, :PCRE2_jll, :Pkg, :Printf,
+                 :Profile, :REPL, :Random, :SHA, :Serialization, :SharedArrays, :Sockets,
+                 :SparseArrays, :Statistics, :SuiteSparse, :SuiteSparse_jll, :TOML, :Tar,
+                 :Test, :UUIDs, :Unicode, :Zlib_jll, :dSFMT_jll, :libLLVM_jll, :nghttp2_jll,
+                 :p7zip_jll]
+            ),
+        )
         @test discard_module.(deps) == deps1
         modules, (deps, requires), required_modules = Base.parse_cache_header(cachefile; srcfiles_only=true)
         @test map(x -> x.filename, deps) == [Foo_file]

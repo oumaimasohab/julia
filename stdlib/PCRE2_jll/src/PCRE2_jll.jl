@@ -8,7 +8,7 @@ using Libdl
 const PATH_list = String[]
 const LIBPATH_list = String[]
 
-export libpcre2_8, libpcre2_16, libpcre2_32
+export libpcre2_8
 
 # These get calculated in __init__()
 libpcre2_8_handle = C_NULL
