@@ -3,7 +3,7 @@
 ## dummy stub for https://github.com/JuliaBinaryWrappers/OpenBLAS_jll.jl
 module OpenBLAS_jll
 
-using Libdl, CompilerSupportLibraries_jll
+using Libdl, CompilerSupportLibraries_jll, Base.BinaryPlatforms
 
 const PATH_list = String[]
 const LIBPATH_list = String[]
@@ -14,24 +14,18 @@ export libopenblas
 libopenblas_handle = C_NULL
 libopenblas_path = ""
 
-if Sys.iswindows()
-    if Sys.WORD_SIZE == 64
-        const libopenblas = "libopenblas64_.dll"
-    else
-        const libopenblas = "libopenblas.dll"
-    end
-elseif Sys.isapple()
-    if Sys.WORD_SIZE == 64
-        const libopenblas = "@rpath/libopenblas64_.dylib"
-    else
-        const libopenblas = "@rpath/libopenblas.dylib"
-    end
+if arch(HostPlatform()) in ("x86_64", "ppc64le")
+    const libsuffix = "64_"
 else
-    if Sys.WORD_SIZE == 64
-        const libopenblas = "libopenblas64_.so"
-    else
-        const libopenblas = "libopenblas.so"
-    end
+    const libsuffix = ""
+end
+
+if Sys.iswindows()
+    const libopenblas = "libopenblas$(libsuffix).dll"
+elseif Sys.isapple()
+    const libopenblas = "@rpath/libopenblas$(libsuffix).dylib"
+else
+    const libopenblas = "libopenblas$(libsuffix).so"
 end
 
 function __init__()
