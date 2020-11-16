@@ -60,6 +60,9 @@ macro test999_str(args...); args; end
     a
     b""" == ("a\nb",)
 
+# make sure a trailing integer, not just a symbol, is allowed also
+@test test999"foo"123 == ("foo", 123)
+
 # issue #5997
 @test_throws ParseError Meta.parse(": x")
 @test_throws ParseError Meta.parse("""begin
@@ -2613,6 +2616,14 @@ end
 end
 
 @test eval(Expr(:if, Expr(:block, Expr(:&&, true, Expr(:call, :(===), 1, 1))), 1, 2)) == 1
+
+@testset "all-underscore varargs on the rhs" begin
+    @test ncalls_in_lowered(quote _..., = a end, GlobalRef(Base, :rest)) == 0
+    @test ncalls_in_lowered(quote ___..., = a end, GlobalRef(Base, :rest)) == 0
+    @test ncalls_in_lowered(quote a, _... = b end, GlobalRef(Base, :rest)) == 0
+    @test ncalls_in_lowered(quote a, _... = b, c end, GlobalRef(Base, :rest)) == 0
+    @test ncalls_in_lowered(quote a, _... = (b...,) end, GlobalRef(Base, :rest)) == 0
+end
 
 # issue #38386
 macro m38386()
