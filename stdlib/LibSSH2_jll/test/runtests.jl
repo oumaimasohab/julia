@@ -3,6 +3,6 @@
 using Test, Libdl, LibSSH2_jll
 
 @testset "LibSSH2_jll" begin
-    vn = VersionNumber(unsafe_string(ccall((:libssh2_version, libssh2), Cstring, (Cint,), 0)))
-    @test vn == v"1.9.0"
+    # We use a `startswith()` here because when built from source, this returns "1.9.0_DEV"
+    vn = startswith(unsafe_string(ccall((:libssh2_version, libssh2), Cstring, (Cint,), 0)), "1.9.0")
 end
