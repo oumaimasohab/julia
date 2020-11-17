@@ -28,7 +28,7 @@ $(SRCCACHE)/gmp-$(GMP_VER)/build-patched: $(SRCCACHE)/gmp-$(GMP_VER)/source-extr
 $(BUILDDIR)/gmp-$(GMP_VER)/build-configured: $(SRCCACHE)/gmp-$(GMP_VER)/source-extracted
 	mkdir -p $(dir $@)
 	cd $(dir $@) && \
-	$(dir $<)/configure $(CONFIGURE_COMMON) F77= --enable-shared --disable-static $(GMP_CONFIGURE_OPTS)
+	$(dir $<)/configure $(CONFIGURE_COMMON) F77= --enable-cxx --enable-shared --disable-static $(GMP_CONFIGURE_OPTS)
 	echo 1 > $@
 
 $(BUILDDIR)/gmp-$(GMP_VER)/build-compiled: $(BUILDDIR)/gmp-$(GMP_VER)/build-configured
@@ -43,10 +43,12 @@ endif
 
 define GMP_INSTALL
 	mkdir -p $2/$(build_shlibdir) $2/$(build_includedir)
+	# Ensure that Windows gets the non-versioned dll names too
 ifeq ($(BUILD_OS),WINNT)
-	-mv $1/.libs/gmp.dll $1/.libs/libgmp.dll
+	-cp $1/.libs/libgmp-*.dll $1/.libs/libgmp.dll
+	-cp $1/.libs/libgmpxx-*.dll $1/.libs/libgmpxx.dll
 endif
-	$(INSTALL_M) $1/.libs/libgmp.*$(SHLIB_EXT)* $2/$(build_shlibdir)
+	$(INSTALL_M) $1/.libs/libgmp*$(SHLIB_EXT)* $2/$(build_shlibdir)
 	$(INSTALL_F) $1/gmp.h $2/$(build_includedir)
 endef
 $(eval $(call staged-install, \
